@@ -1,5 +1,4 @@
 from config import db
-from api.models.professores_model import Professor
 
 class Turma(db.Model):
     __tablename__ = 'turmas'
@@ -11,6 +10,8 @@ class Turma(db.Model):
 
     # Relacionamento com o modelo Professor
     professor = db.relationship('Professor', back_populates='turmas')
+    # Relacionamento com o modelo Turma
+    alunos = db.relationship('Aluno', back_populates='turma', cascade="all, delete-orphan")
 
     def __init__(self, descricao, professor_id, ativo):
         self.descricao = descricao

@@ -1,14 +1,46 @@
 from config import db
+from datetime import datetime
 
 class Aluno(db.Model):
+    __tablename__ = 'alunos'
+
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100))
+    idade = db.Column(db.Integer, nullable=False)
+    turma_id = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=False)
+    data_nasc = db.Column(db.Date, nullable=False)
+    nota_primeiro_semestre = db.Column(db.Float, nullable=True)
+    nota_segundo_semestre = db.Column(db.Float, nullable=True)
+    media = db.Column(db.Float, nullable=True)
 
-    def __init__(self, nome):
+    # Relacionamento com o modelo Turma
+    turma = db.relationship('Turma', back_populates='alunos')
+
+    def __init__(self, nome, idade, turma_id, data_nasc, nota_primeiro_semestre=None, nota_segundo_semestre=None):
         self.nome = nome
+        self.idade = idade
+        self.turma_id = turma_id
+        self.data_nasc = data_nasc
+        self.nota_primeiro_semestre = nota_primeiro_semestre
+        self.nota_segundo_semestre = nota_segundo_semestre
+        self.media = self.calcular_media()
+
+    def calcular_media(self):
+        if self.nota_primeiro_semestre is not None and self.nota_segundo_semestre is not None:
+            return (self.nota_primeiro_semestre + self.nota_segundo_semestre) / 2
+        return None
 
     def to_dict(self):
-        return {'id': self.id, 'nome': self.nome}
+        return {
+            'id': self.id, 
+            'nome': self.nome,
+            'data_nascimento': self.data_nasc.strftime('%Y-%m-%d'),
+            'turma': self.turma.descricao if self.turma else None,
+            'idade': self.idade,
+            'nota do primeiro semestre': self.nota_primeiro_semestre,
+            'nota do segundo semestre': self.nota_segundo_semestre,
+            'media': self.media
+            }
 
 class AlunoNaoEncontrado(Exception):
     pass
@@ -24,7 +56,17 @@ def listar_alunos():
     return [aluno.to_dict() for aluno in alunos]
 
 def adicionar_aluno(aluno_data):
-    novo_aluno = Aluno(nome=aluno_data['nome'])
+    # Converter a string de data para um objeto date
+    data_nasc = datetime.strptime(aluno_data['data_nasc'], '%Y-%m-%d').date()
+    
+    novo_aluno = Aluno(
+        nome=aluno_data['nome'],
+        idade=aluno_data['idade'],
+        turma_id=aluno_data['turma_id'],
+        data_nasc=data_nasc,  # Usando o objeto date aqui
+        nota_primeiro_semestre=aluno_data['nota_primeiro_semestre'],
+        nota_segundo_semestre=aluno_data['nota_segundo_semestre'],
+    )
     db.session.add(novo_aluno)
     db.session.commit()
 
