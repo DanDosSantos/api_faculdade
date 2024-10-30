@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Turmas</title>
+</head>
+<body>
+    <h1>Lista de Turmas</h1>
+    <a href="{{ url_for('turmas.nova_turma') }}">Adicionar Nova Turma</a>
+    <ul>
+        {% for turma in turmas %}
+        <li>{{ turma.descricao }} - <a href="{{ url_for('turmas.update_turma', id_turma=turma.id) }}">Ver informações</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

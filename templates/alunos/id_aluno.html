@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes do Aluno</title>
+</head>
+<body>
+    <h1>Detalhes do Aluno</h1>
+    <p><strong>ID:</strong> {{ aluno.id }}</p>
+    <p><strong>Nome:</strong> {{ aluno.nome }}</p>
+    <p><strong>Data de Nascimento:</strong> {{ aluno.data_nascimento }}</p>
+    <p><strong>Turma:</strong> {{ aluno.turma }}</p>
+    <p><strong>Idade:</strong> {{ aluno.idade }}</p>
+    <p><strong>Nota do Primeiro Semestre:</strong> {{ aluno.nota_primeiro_semestre }}</p>
+    <p><strong>Nota do Segundo Semestre:</strong> {{ aluno.nota_segundo_semestre }}</p>
+    <p><strong>Média:</strong> {{ aluno.media }}</p>
+
+    <a href="{{ url_for('alunos.get_aluno') }}">Voltar à lista de Alunos</a>
+</body>
+</html>

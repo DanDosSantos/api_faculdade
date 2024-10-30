@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Professores</title>
+</head>
+<body>
+    <h1>Lista de Professores</h1>
+    <a href="{{ url_for('professores.novo_professor') }}">Adicionar Novo Professor</a>
+    <ul>
+        {% for professor in professores %}
+        <li>{{ professor.nome }} - <a href="{{ url_for('professores.update_professor', id_professor=professor.id) }}">Ver informações</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

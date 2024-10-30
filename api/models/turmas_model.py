@@ -23,7 +23,7 @@ class Turma(db.Model):
         return {
             'id': self.id, 
             'descricao': self.descricao,
-            'nome do professor': self.professor.nome,
+            'nome_do_professor': self.professor.nome,
             'ativo': self.ativo
             }
 

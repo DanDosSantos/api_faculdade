@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Turma</title>
+</head>
+<body>
+    <h1>Detalhes da Turma</h1>
+    <p><strong>ID:</strong> {{ turma.id }}</p>
+    <p><strong>Descrição:</strong> {{ turma.descricao }}</p>
+    <p><strong>Nome do Professor:</strong> {{ turma.nome_do_professor }}</p>
+    <p><strong>Turma Ativa:</strong> {{ turma.ativo }}</p>
+
+    <a href="{{ url_for('turmas.get_turmas') }}">Voltar à lista de Turmas</a>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Turma</title>
+</head>
+<body>
+    <h1>Criar Nova Turma</h1>
+    <form action="{{ url_for('turmas.create_turma') }}" method="POST">
+        <label for="descricao">Descrição da Turma:</label>
+        <input type="text" id="descricao" name="descricao" required>
+    
+        <label for="professor">Professor:</label>
+        <select id="professor" name="professor" required>
+            {% for professor in professores %}
+                <option value="{{ professor.id }}">{{ professor.nome }}</option>
+            {% endfor %}
+        </select>
+    
+        <label for="ativo">Ativo:</label>
+        <input type="checkbox" id="ativo" name="ativo">
+    
+        <button type="submit">Criar Turma</button>
+    </form>
+
+    <a href="{{ url_for('turmas.get_turmas') }}">Voltar à Lista de Turmas</a>
+</body>
+</html>
