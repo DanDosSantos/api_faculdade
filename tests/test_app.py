@@ -22,20 +22,22 @@ class AlunoTestCase(unittest.TestCase):
 
     def setUp(self):
         with app.app_context():
-            aluno = Aluno(
+            # Define o aluno de teste e salva em `self.aluno_teste`
+            self.aluno_teste = Aluno(
                 nome="Teste Aluno",
                 idade=20,
                 turma_id=1,
-                data_nascimento=date(2003, 1, 1)  # Converte a data para um objeto date
+                data_nascimento=date(2003, 1, 1)
             )
-            db.session.add(aluno)
-            db.session.commit()
+            db.session.add(self.aluno_teste)
+            db.session.commit()  # `self.aluno_teste` terá o ID gerado após o commit
+            # Recarrega o aluno de teste para manter a sessão ativa
+            self.aluno_teste = db.session.get(Aluno, self.aluno_teste.id)
 
     def tearDown(self):
         with app.app_context():
-            db.session.remove()
-            db.drop_all()
-            db.create_all()
+            db.session.query(Aluno).delete()  # Limpa dados de teste
+            db.session.commit()
 
 
     def test_create_aluno(self):
@@ -51,6 +53,16 @@ class AlunoTestCase(unittest.TestCase):
         response = self.client.get('/alunos')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Teste Aluno', response.data)  # Verifica se o aluno de teste está na lista
+
+    def test_buscar_aluno_por_id(self):
+        response = self.client.get(f'/alunos/{self.aluno_teste.id}')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Teste Aluno', response.data)  # Verifica se o nome do aluno está no conteúdo do template
+
+    def test_buscar_aluno_id_inexistente(self):
+        response = self.client.get('/alunos/9999')
+        self.assertEqual(response.status_code, 404)
+        self.assertIn(b'404 - Pagina nao encontrada', response.data)  # Verifica se a página 404 contém a mensagem correta
 
     def test_update_aluno(self):
         with app.app_context():
@@ -79,6 +91,6 @@ class AlunoTestCase(unittest.TestCase):
 
         # Verifica se o aluno foi removido do banco de dados
         with app.app_context():
-            aluno_deletado = Aluno.query.get(aluno_id)
+            aluno_deletado = db.session.get(Aluno, aluno_id)
             self.assertIsNone(aluno_deletado)
 

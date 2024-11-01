@@ -46,7 +46,7 @@ class AlunoNaoEncontrado(Exception):
     pass
 
 def aluno_por_id(id_aluno):
-    aluno = Aluno.query.get(id_aluno)
+    aluno = db.session.get(Aluno, id_aluno)
     if not aluno:
         raise AlunoNaoEncontrado
     return aluno.to_dict()
@@ -71,14 +71,14 @@ def adicionar_aluno(aluno_data):
     db.session.commit()
 
 def atualizar_aluno(id_aluno, novos_dados):
-    aluno = Aluno.query.get(id_aluno)
+    aluno = db.session.get(Aluno, id_aluno)
     if not aluno:
         raise AlunoNaoEncontrado
     aluno.nome = novos_dados['nome']
     db.session.commit()
 
 def excluir_aluno(id_aluno):
-    aluno = Aluno.query.get(id_aluno)
+    aluno = db.session.get(Aluno, id_aluno)
     if not aluno:
         raise AlunoNaoEncontrado
     db.session.delete(aluno)
