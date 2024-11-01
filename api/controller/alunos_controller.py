@@ -17,7 +17,7 @@ def get_aluno_by_id(id_aluno):
         aluno = aluno_por_id(id_aluno)
         return render_template('alunos/id_aluno.html', aluno=aluno)
     except AlunoNaoEncontrado:
-        return jsonify({'message': 'Aluno não encontrado'}), 404
+        return jsonify({'message': 'Aluno não encontrado'})
 
 # Rota para exibir o formulário de criação do aluno
 @alunos_bp.route('/alunos/novo', methods=['GET'])
@@ -55,15 +55,15 @@ def update_aluno(id_aluno):
     novos_dados = request.json
     try:
         atualizar_aluno(id_aluno, novos_dados)
-        return jsonify({'message': 'Aluno atualizado com sucesso!'}), 200
+        return jsonify({'message': 'Aluno atualizado com sucesso!'})
     except AlunoNaoEncontrado:
-        return jsonify({'message': 'Aluno não encontrado'}), 404
+        return jsonify({'message': 'Aluno não encontrado'})
 
 # Rota para excluir o aluno
 @alunos_bp.route('/alunos/<int:id_aluno>', methods=['DELETE'])
 def delete_aluno(id_aluno):
     try:
         excluir_aluno(id_aluno)
-        return ({'message': 'Aluno deletado com sucesso!'}), 200
+        return ({'message': 'Aluno deletado com sucesso!'})
     except AlunoNaoEncontrado:
-        return jsonify({'message': 'Aluno não encontrado'}), 404
+        return jsonify({'message': 'Aluno não encontrado'})

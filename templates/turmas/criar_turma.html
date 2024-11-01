@@ -9,6 +9,7 @@
     <form action="{{ url_for('turmas.create_turma') }}" method="POST">
         <label for="descricao">Descrição da Turma:</label>
         <input type="text" id="descricao" name="descricao" required>
+        <br>
     
         <label for="professor">Professor:</label>
         <select id="professor" name="professor" required>
@@ -16,12 +17,15 @@
                 <option value="{{ professor.id }}">{{ professor.nome }}</option>
             {% endfor %}
         </select>
+        <br>
     
         <label for="ativo">Ativo:</label>
         <input type="checkbox" id="ativo" name="ativo">
+        <br>
     
         <button type="submit">Criar Turma</button>
     </form>
+    <br>
 
     <a href="{{ url_for('turmas.get_turmas') }}">Voltar à Lista de Turmas</a>
 </body>
