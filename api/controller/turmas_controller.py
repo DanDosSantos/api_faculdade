@@ -18,7 +18,7 @@ def get_turma(id_turma):
         turma = turma_por_id(id_turma)
         return render_template('turmas/id_turma.html', turma=turma)
     except TurmaNaoEncontrada:
-        return jsonify({'message': 'Turma não encontrada'}), 404
+        return render_template('turmas/404.html'), 404
 
 # Rota para exibir o formulário de criação da turma
 @turmas_bp.route('/turmas/novo', methods=['GET'])
@@ -53,7 +53,7 @@ def update_turma(id_turma):
         atualizar_turma(id_turma, novos_dados)
         return jsonify({'message': 'Turma atualizada com sucesso!'}), 200
     except TurmaNaoEncontrada:
-        return jsonify({'message': 'Turma não encontrada'}), 404
+        return render_template('turmas/404.html'), 404
     
 # Rota para excluir uma turma
 @turmas_bp.route('/turmas/<int:id_turma>', methods=['DELETE'])
@@ -62,4 +62,4 @@ def delete_turma(id_turma):
         excluir_turma(id_turma)
         return ({'message': 'Turma deletada com sucesso!'}), 200
     except TurmaNaoEncontrada:
-        return jsonify({'message': 'Turma não encontrada'}), 404
+        return render_template('turmas/404.html'), 404

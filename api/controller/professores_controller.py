@@ -21,7 +21,7 @@ def get_professor_by_id(id_professor):
         professor = professor_por_id(id_professor)
         return render_template('professores/id_professor.html', professor=professor)
     except ProfessorNaoEncontrado:
-        return jsonify({'message': 'Professor não encontrado'}), 404
+        return render_template('professores/404.html'), 404
     
 # Rota para exibir o formulário de criação do professor
 @professores_bp.route('/professores/novo', methods=['GET'])
@@ -57,7 +57,7 @@ def update_professor(id_professor):
         atualizar_professor(id_professor, novos_dados)
         return jsonify({'message': 'Professor atualizado com sucesso!'}), 200
     except ProfessorNaoEncontrado:
-        return jsonify({'message': 'Professor não encontrado'}), 404
+        return render_template('professores/404.html'), 404
 
 # Rota para excluir o professor
 @professores_bp.route('/professores/<int:id_professor>', methods=['DELETE'])
@@ -66,4 +66,4 @@ def delete_professor(id_professor):
         excluir_professor(id_professor)
         return ({'message': 'Professor deletado com sucesso!'}), 200
     except ProfessorNaoEncontrado:
-        return jsonify({'message': 'Professor não encontrado'}), 404
+        return render_template('professores/404.html'), 404
